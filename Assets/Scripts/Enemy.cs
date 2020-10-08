@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float health = 10;
     public int score  = 100;
 
-    private BoundsCheck bndCheck;
+    protected BoundsCheck bndCheck;
 
     private void Awake()
     {
@@ -46,16 +46,29 @@ public class Enemy : MonoBehaviour
         pos = tempPos;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision coll)
     {
-        GameObject otherGO = collision.gameObject;
-        if(otherGO.tag == "ProjectileHero")
+        GameObject otherGO = coll.gameObject;
+        switch (otherGO.tag)
         {
-            Destroy(otherGO);
-            Destroy(gameObject);
-        } else
-        {
-            print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+            case "ProjectileHero":
+                Projectile p = otherGO.GetComponent<Projectile>();
+                if (!bndCheck.isOnScreen)
+                {
+                    Destroy(otherGO);
+                    break;
+                }
+                health -= Main.GetWeaponDefinition(p.type).damageOnHit;
+                if(health <= 0)
+                {
+                    Destroy(this.gameObject);
+                }
+                Destroy(otherGO);
+                break;
+
+            default:
+                print("Enemy hit by non-ProjectileHero: " + otherGO.name);
+                break;
         }
     }
 }
