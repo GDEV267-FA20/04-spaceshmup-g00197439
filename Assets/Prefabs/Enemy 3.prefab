@@ -68,6 +68,13 @@ MonoBehaviour:
   fireRate: 0.3
   health: 10
   score: 100
+  showDamageDuartion: 0.1
+  PowerUpDropChance: 0.5
+  originalColors: []
+  materials: []
+  showingDamage: 0
+  damageDoneTime: 0
+  notifiedOfDestruction: 0
   sinEccentrcity: 0.6
   lifeTime: 10
   p0: {x: 0, y: 0, z: 0}
